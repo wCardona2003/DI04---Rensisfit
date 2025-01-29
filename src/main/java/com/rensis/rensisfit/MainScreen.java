@@ -6,7 +6,7 @@ package com.rensis.rensisfit;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.rensis.data.DataAccess;
 import com.rensis.models.Usuari;
-import com.rensis.styles.UIStyles;
+import com.rensis.styles.*;
 
 /**
  *
@@ -40,7 +40,7 @@ public class MainScreen extends javax.swing.JFrame {
         startPanel = new javax.swing.JPanel();
         mainIcon = new javax.swing.JLabel();
         webLink = new javax.swing.JLabel();
-        loginButton = new javax.swing.JButton();
+        loginButton = new RoundedButton("");
         errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,6 +59,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
         loginButton.setForeground(new java.awt.Color(0, 0, 0));
         loginButton.setText("Login");
+        loginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginButton.setFocusable(false);
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

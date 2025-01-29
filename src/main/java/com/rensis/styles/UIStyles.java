@@ -55,7 +55,8 @@ public class UIStyles {
     
     // Global variables for border styles
     public static final Border DEFAULT_BORDER_2PX = javax.swing.BorderFactory.createLineBorder(Color.BLACK, 2);
-    public static final Border DEFAULT_BORDER_3PX = javax.swing.BorderFactory.createLineBorder(Color.BLACK, 3);
+    public static final Border DEFAULT_BORDER_2PX_BUTTON = new RoundedBorder(Color.BLACK, 2, 10);
+    public static final Border DEFAULT_BORDER_3PX = new RoundedBorder(Color.BLACK, 3, 10);
     public static final Border BOTTOM_BORDER = javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
     public static final Border BOTTOM_RIGHT_BORDER = javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 2, Color.BLACK);
     public static final Border NO_TOP_BORDER = javax.swing.BorderFactory.createMatteBorder(0, 2, 2, 2, Color.BLACK);

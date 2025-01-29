@@ -192,6 +192,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="exitButton">
           <Properties>
@@ -216,6 +219,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -328,6 +334,9 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="exerciseSelector">
           <Properties>
@@ -400,6 +409,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addExerciseButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -421,6 +433,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedTextField(1)"/>
+          </AuxValues>
         </Component>
         <Container class="javax.swing.JScrollPane" name="exerciseListScrollPane">
           <Properties>
@@ -465,6 +480,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeExerciseButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="deleteButton">
           <Properties>
@@ -489,6 +507,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="addExsitingWorkout">
           <Properties>
@@ -513,6 +534,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addExsitingWorkoutActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

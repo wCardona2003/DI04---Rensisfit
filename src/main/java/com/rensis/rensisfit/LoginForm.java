@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.rensis.rensisfit;
-import com.rensis.styles.UIStyles;
+import com.rensis.styles.*;
 
 /**
  *
@@ -40,13 +40,13 @@ public class LoginForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        loginPanel = new javax.swing.JPanel();
+        loginPanel = new RoundedPanel();
         emailLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
-        loginButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
-        passwordField = new javax.swing.JPasswordField();
+        emailField = new RoundedTextField(1);
+        loginButton = new RoundedButton("");
+        cancelButton = new RoundedButton("");
+        passwordField = new RoundedPasswordField(1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -65,6 +65,7 @@ public class LoginForm extends javax.swing.JDialog {
         emailField.setBackground(new java.awt.Color(255, 255, 255));
         emailField.setFont(UIStyles.getFont(28));
         emailField.setForeground(new java.awt.Color(0, 0, 0));
+        emailField.setMaximumSize(new java.awt.Dimension(64, 22));
 
         loginButton.setBackground(new java.awt.Color(254, 194, 209));
         loginButton.setFont(UIStyles.getFont(28));
@@ -99,6 +100,7 @@ public class LoginForm extends javax.swing.JDialog {
         passwordField.setBackground(new java.awt.Color(255, 255, 255));
         passwordField.setFont(UIStyles.getFont(28));
         passwordField.setForeground(new java.awt.Color(0, 0, 0));
+        passwordField.setMaximumSize(new java.awt.Dimension(64, 22));
 
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
@@ -111,12 +113,12 @@ public class LoginForm extends javax.swing.JDialog {
                     .addComponent(passwordLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(emailField)
+                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(loginPanelLayout.createSequentialGroup()
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                         .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(passwordField))
+                    .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 97, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
@@ -130,11 +132,11 @@ public class LoginForm extends javax.swing.JDialog {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,7 +178,7 @@ public class LoginForm extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
+    public javax.swing.JButton cancelButton;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JButton loginButton;

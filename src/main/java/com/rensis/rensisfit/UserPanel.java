@@ -7,7 +7,7 @@ import com.rensis.data.DataAccess;
 import com.rensis.models.Exercici;
 import com.rensis.models.Usuari;
 import com.rensis.models.Workout;
-import com.rensis.styles.UIStyles;
+import com.rensis.styles.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -66,14 +66,14 @@ public class UserPanel extends JPanel {
         exerciseInfo.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         userInfoPhoto.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         
-        workoutAddButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        workoutEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+        workoutAddButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        workoutEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         workoutsListScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         
         exerciseInfoPhoto.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         exerciseInfoDescriptionScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseRemoveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+        exerciseEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        exerciseRemoveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         exerciseListScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         
         // Setting user name on Hi <user> label
@@ -99,7 +99,7 @@ public class UserPanel extends JPanel {
         headerHi = new javax.swing.JLabel();
         userHeaderName = new javax.swing.JLabel();
         headerLogo = new javax.swing.JLabel();
-        logoutButton = new javax.swing.JButton();
+        logoutButton = new RoundedButton("");
         contentPanel = new javax.swing.JPanel();
         usersListContainer = new javax.swing.JPanel();
         usersListHead = new javax.swing.JLabel();
@@ -115,12 +115,12 @@ public class UserPanel extends JPanel {
         userInfoWorkoutsLabel = new javax.swing.JLabel();
         workoutsListScrollpane = new javax.swing.JScrollPane();
         workoutsList = new javax.swing.JPanel();
-        workoutAddButton = new javax.swing.JButton();
+        workoutAddButton = new RoundedButton("");
         userInfoMailLabel1 = new javax.swing.JLabel();
         exerciseListScrollpane = new javax.swing.JScrollPane();
         exerciseList = new javax.swing.JPanel();
         userInfoMailLabel2 = new javax.swing.JLabel();
-        workoutEditButton = new javax.swing.JButton();
+        workoutEditButton = new RoundedButton("");
         exerciseInfo = new javax.swing.JPanel();
         exerciseInfoPhoto = new javax.swing.JLabel();
         exerciseInfoHeadLabel = new javax.swing.JLabel();
@@ -129,8 +129,8 @@ public class UserPanel extends JPanel {
         exerciseInfoWorkoutDescription = new javax.swing.JLabel();
         exerciseInfoDescriptionScrollpane = new javax.swing.JScrollPane();
         exerciseInfoDescription = new javax.swing.JTextArea();
-        exerciseEditButton = new javax.swing.JButton();
-        exerciseRemoveButton = new javax.swing.JButton();
+        exerciseEditButton = new RoundedButton("");
+        exerciseRemoveButton = new RoundedButton("");
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.GridBagLayout());

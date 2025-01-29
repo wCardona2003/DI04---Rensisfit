@@ -130,6 +130,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -524,6 +527,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="workoutAddButtonActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="userInfoMailLabel1">
               <Properties>
@@ -616,6 +622,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="workoutEditButtonActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -829,6 +838,9 @@
                   <Dimension value="[79, 44]"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="exerciseRemoveButton">
               <Properties>
@@ -859,6 +871,9 @@
                   <Dimension value="[79, 44]"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

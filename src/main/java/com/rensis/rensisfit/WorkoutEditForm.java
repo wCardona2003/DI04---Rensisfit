@@ -8,7 +8,7 @@ import com.rensis.data.DataAccess;
 import com.rensis.models.Exercici;
 import com.rensis.models.Usuari;
 import com.rensis.models.Workout;
-import com.rensis.styles.UIStyles;
+import com.rensis.styles.*;
 import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
@@ -57,12 +57,12 @@ public class WorkoutEditForm extends javax.swing.JDialog {
         //Styling
         editPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         uploadPhotoPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        saveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exitButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        removePhotoButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        addExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        removeExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        deleteButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+        saveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        exitButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        removePhotoButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        addExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        removeExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        deleteButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         picker.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         workoutName.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         exerciseListScrollPane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
@@ -128,26 +128,26 @@ public class WorkoutEditForm extends javax.swing.JDialog {
     private void initComponents() {
 
         editPanel = new javax.swing.JPanel();
-        saveButton = new javax.swing.JButton();
-        exitButton = new javax.swing.JButton();
+        saveButton = new RoundedButton("");
+        exitButton = new RoundedButton("");
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         uploadPhotoPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        removePhotoButton = new javax.swing.JButton();
+        removePhotoButton = new RoundedButton("");
         exerciseSelector = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         scrollPaneDateFor = new javax.swing.JScrollPane();
         dateForPanel = new javax.swing.JPanel();
-        addExerciseButton = new javax.swing.JButton();
+        addExerciseButton = new RoundedButton("");
         jLabel6 = new javax.swing.JLabel();
-        workoutName = new javax.swing.JTextField();
+        workoutName = new RoundedTextField(1);
         exerciseListScrollPane = new javax.swing.JScrollPane();
         exerciseListPanel = new javax.swing.JPanel();
-        removeExerciseButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        addExsitingWorkout = new javax.swing.JButton();
+        removeExerciseButton = new RoundedButton("");
+        deleteButton = new RoundedButton("");
+        addExsitingWorkout = new RoundedButton("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 

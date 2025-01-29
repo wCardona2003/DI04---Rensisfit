@@ -6,7 +6,7 @@ package com.rensis.rensisfit;
 
 import com.rensis.data.DataAccess;
 import com.rensis.models.Workout;
-import com.rensis.styles.UIStyles;
+import com.rensis.styles.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -39,8 +39,8 @@ public class ExistingWorkoutForm extends javax.swing.JDialog {
         // Styling
         editPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         workoutsComboBox.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        addButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        cancelButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+        addButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+        cancelButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         
         // Initialize combo box with exercises
         initComboBox();
@@ -54,8 +54,8 @@ public class ExistingWorkoutForm extends javax.swing.JDialog {
         editPanel = new javax.swing.JPanel();
         workoutsComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        cancelButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
+        cancelButton = new RoundedButton("");
+        addButton = new RoundedButton("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

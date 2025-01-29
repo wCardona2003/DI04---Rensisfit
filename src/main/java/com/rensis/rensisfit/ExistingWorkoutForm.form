@@ -159,6 +159,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="addButton">
           <Properties>
@@ -183,6 +186,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;&quot;)"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
