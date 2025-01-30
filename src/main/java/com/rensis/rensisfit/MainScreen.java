@@ -137,54 +137,69 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel webLink;
     // End of variables declaration//GEN-END:variables
     
-    // Login handler
-    public void loginHandler(String mail, char[] password){
-    
-        // Getting user with email
-        Usuari user = DataAccess.getUser(mail);
-        
-        // Getting password hash from de database
-        String passwordHash = user.getPasswordHash();
-        
-        // Check if password hash is not null (if user is not found on the database passwordHash will be null)
-        if (passwordHash != null){
-            
-            // User need to be an instructor
-            if(user.isInstructor()){
-                
-                // Checking the password
-                if(BCrypt.verifyer().verify(password, passwordHash).verified){
-
-                    // Cleaning the error label
-                    errorLabel.setText("");
-                    
-                    // Setting up the user panel on our frame
-                    startPanel.setVisible(false);
-                    userPanel = new UserPanel(this,user);
-                    userPanel.setBounds(0,0,1280,720);
-                    userPanel.setVisible(true);
-
-                    // Adding userPanel to our frame
-                    getContentPane().add(userPanel);
-
-                } else {
-                    // Error label for wrong password
-                    errorLabel.setText("Wrong password");
-                }
-                //endif
-                
-            } else {
-                // Error label if the user is not an instructor
-                errorLabel.setText("Access denied: User is not an instructor");
-            }
-            //endif
-            
-        } else {
-            // Error laber if the user was not found
-            errorLabel.setText("User not found");
+    public void loginHandler(String mail, char[] password) {
+        // Validar que el email y la contraseña no estén vacíos
+        if (mail == null || mail.trim().isEmpty()) {
+            errorLabel.setText("Email cannot be empty");
+            return;
         }
-        //endif
-            
+        if (password == null || password.length == 0) {
+            errorLabel.setText("Password cannot be empty");
+            return;
+        }
+
+        try {
+            // Get user from database
+            Usuari user = DataAccess.getUser(mail);
+
+            // Verify if user exists
+            if (user == null) {
+                errorLabel.setText("User not found");
+                return;
+            }
+
+            // Get password hash
+            String passwordHash = user.getPasswordHash();
+
+            // Verify if user have registrated password
+            if (passwordHash == null || passwordHash.isEmpty()) {
+                errorLabel.setText("Invalid user credentials");
+                return;
+            }
+
+            // Verify if user is an instructor
+            if (!user.isInstructor()) {
+                errorLabel.setText("Access denied: User is not an instructor");
+                return;
+            }
+
+            // Verify password with bcrypt
+            boolean passwordMatch = BCrypt.verifyer().verify(password, passwordHash).verified;
+
+            // Cleaning password on memory for security reasons
+            java.util.Arrays.fill(password, '\0');
+
+            if (passwordMatch) {
+                // Clean error label
+                errorLabel.setText("");
+
+                // Show user panel
+                startPanel.setVisible(false);
+                userPanel = new UserPanel(this, user);
+                userPanel.setBounds(0, 0, 1280, 720);
+                userPanel.setVisible(true);
+
+                // Adding panel to the frame
+                getContentPane().add(userPanel);
+            } else {
+                errorLabel.setText("Wrong password");
+            }
+
+        } catch (Exception e) {
+            // Catch any error and show default message
+            errorLabel.setText("An error occurred. Please try again.");
+            e.printStackTrace(); // Solo para depuración
+        }
     }
     
     // Logout handler

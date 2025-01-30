@@ -7,7 +7,7 @@ package com.rensis.rensisfit;
 import com.rensis.models.Exercici;
 import com.rensis.models.Workout;
 import java.util.ArrayList;
-
+import java.util.HashSet;
 
 /**
  *
@@ -15,48 +15,50 @@ import java.util.ArrayList;
  */
 public class RensisFit {
     
-
     public static void main(String[] args) {
-        //Initialization of our frame
+        // Initialize main screen
         MainScreen mainScreen = new MainScreen();
 
-        //Setting the location of the frame
+        // Configuration
         mainScreen.setLocationRelativeTo(null);
-
-        //Setting the visibility of our frame
         mainScreen.setVisible(true);
-
-        //Disabling resizable window
         mainScreen.setResizable(false);
-        
     }
     
-    public static String[] exerciciArrayListToString(ArrayList<Exercici> exercisesArrayList){
-        String[] formattedList = new String[exercisesArrayList.size()+1];
-        formattedList[0] = "--Select--";
-        int i = 1;
-        for(Exercici e : exercisesArrayList){
-            formattedList[i] = e.getNomExercici();
-            i++;
+    public static String[] exerciciArrayListToString(ArrayList<Exercici> exercisesArrayList) {
+        if (exercisesArrayList == null || exercisesArrayList.isEmpty()) {
+            return new String[]{"--Select--"};
         }
+
+        // Convert to String()
+        String[] formattedList = new String[exercisesArrayList.size() + 1];
+        formattedList[0] = "--Select--";
+
+        int i = 1;
+        for (Exercici e : exercisesArrayList) {
+            formattedList[i++] = e.getNomExercici();
+        }
+        
         return formattedList;
     }
     
     public static String[] workoutsArrayListToString(ArrayList<Workout> workoutsArrayList) {
-        // Lista temporal para construir el resultado sin duplicados
-        ArrayList<String> tempList = new ArrayList<>();
-        tempList.add("--Select--");  // Agregar la opción inicial
+        if (workoutsArrayList == null || workoutsArrayList.isEmpty()) {
+            return new String[]{"--Select--"};
+        }
 
-        // Recorrer la lista de workouts y agregar solo comentarios únicos
+        // Avoid duplicated options using HasSet
+        HashSet<String> uniqueComments = new HashSet<>();
+        uniqueComments.add("--Select--");
+
         for (Workout w : workoutsArrayList) {
             String comment = w.getComments();
-            if (!tempList.contains(comment)) {  // Verificar si el comentario ya está en tempList
-                tempList.add(comment);  // Agregar si no es un duplicado
+            if (comment != null && !comment.trim().isEmpty()) {
+                uniqueComments.add(comment.trim()); // Evitar espacios innecesarios
             }
         }
 
-        // Convertir la lista temporal a un arreglo y retornarlo
-        String[] formattedList = tempList.toArray(new String[0]);
-        return formattedList;
+        // HashSet to String[]
+        return uniqueComments.toArray(new String[0]);
     }
 }

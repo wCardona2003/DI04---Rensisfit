@@ -4,6 +4,7 @@
  */
 package com.rensis.rensisfit;
 import com.rensis.styles.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -164,18 +165,37 @@ public class LoginForm extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        
-        // Getting email and password values
-        char[] password = passwordField.getPassword();
+        // Obtener valores del formulario
+        char[] passwordArray = passwordField.getPassword();
         String email = emailField.getText();
-        
-        // Calling loginHandlet sending our form data
-        mainScreen.loginHandler(email, password);
-        
-        // Hiding the form
+        String password = new String(passwordArray); // Convertir a String seguro
+
+        // Validations
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese su email y contraseña.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si hay campos vacíos
+        }
+
+        // Validate email format
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un email válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Calling login handler
+        mainScreen.loginHandler(email, password.toCharArray()); // Usar toCharArray() para mayor seguridad
+
+        // Cleaning password field for security reasons
+        passwordField.setText("");
+
+        // Hide form after login try
         setVisible(false);
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,}$";
+        return email.matches(emailRegex);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton cancelButton;

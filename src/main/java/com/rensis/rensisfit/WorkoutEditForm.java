@@ -9,12 +9,13 @@ import com.rensis.models.Exercici;
 import com.rensis.models.Usuari;
 import com.rensis.models.Workout;
 import com.rensis.styles.*;
+import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.*;
-import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -23,69 +24,49 @@ import org.jdesktop.swingx.JXDatePicker;
  */
 public class WorkoutEditForm extends javax.swing.JDialog {
 
-    private MainScreen mainScreen;
-    private ArrayList<Exercici> allExercises = null;
-    private Usuari user;
-    private JXDatePicker picker;
-    private ArrayList<Exercici> selectedExercises = new ArrayList<>();
-    // Idea get from https://stackoverflow.com/questions/11736878/display-calendar-to-pick-a-date-in-java and https://docs.oracle.com/javase/10/docs/api/java/text/SimpleDateFormat.html
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSS");
-    
-    private Workout selectedWorkout = null;
-    private String action = "";
+    private final MainScreen mainScreen;
+    private final ArrayList<Exercici> allExercises;
+    private final Usuari user;
+    private JXDatePicker picker = null;
+    private final ArrayList<Exercici> selectedExercises = new ArrayList<>();
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSS");
+
+    private Optional<Workout> selectedWorkout = Optional.empty();
+    private String action = "create";
 
     /**
      * Constructor for creating a new workout.
      */
     public WorkoutEditForm(java.awt.Frame parent, boolean modal, Usuari user) {
         super(parent, modal);
-        this.allExercises = DataAccess.getAllExercicis();
+        this.allExercises = Optional.ofNullable(DataAccess.getAllExercicis()).orElse(new ArrayList<>());
         this.user = user;
         this.mainScreen = (MainScreen) parent;
 
         setUndecorated(true);
         initComponents();
-        
         setLocationRelativeTo(mainScreen);
-        
-        // Initialize combo box with exercises
-        initComboBox();
 
-        // Initialize date picker
+        initComboBox();
         initDatePicker();
-        
-        //Styling
-        editPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        uploadPhotoPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        saveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        exitButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        removePhotoButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        addExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        removeExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        deleteButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
-        picker.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        workoutName.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseListScrollPane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseSelector.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        addExsitingWorkout.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        
-        // Hide delete button by default for new workout
-        deleteButton.setVisible(false);
+        applyStyles();
+
+        deleteButton.setVisible(false); // Hide delete button on new workouts
     }
-    
+
     /**
     * Constructor for editing an existing workout.
     */
     public WorkoutEditForm(java.awt.Frame parent, boolean modal, Usuari user, Workout workout) {
         super(parent, modal);
-        this.allExercises = DataAccess.getAllExercicis();
+        this.allExercises = Optional.ofNullable(DataAccess.getAllExercicis()).orElse(new ArrayList<>());
         this.user = user;
         this.mainScreen = (MainScreen) parent;
-        this.selectedWorkout = workout;
+        this.selectedWorkout = Optional.of(workout);
+        this.action = "edit";
 
-        // Load selected exercises for editing
-        selectedExercises = DataAccess.getExercicisPerWorkout(workout);
-        action = "edit";
+        // Avoid NullPointerException
+        selectedExercises.addAll(Optional.ofNullable(DataAccess.getExercicisPerWorkout(workout)).orElse(new ArrayList<>()));
 
         setUndecorated(true);
         initComponents();
@@ -93,33 +74,22 @@ public class WorkoutEditForm extends javax.swing.JDialog {
 
         // Initialize combo box with exercises
         initComboBox();
-
-        // Initialize date picker and set workout date
+        
+        // Initialize Date Picker
         initDatePicker();
         
+        // Apply styles
+        applyStyles();
+
         addExsitingWorkout.setVisible(false);
-        
         workoutName.setText(workout.getComments());
-        
+
         try {
             picker.setDate(dateFormatter.parse(workout.getForDate()));
         } catch (ParseException e) {
             picker.setDate(Calendar.getInstance().getTime());
         }
-        
-        //Styling
-        editPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        uploadPhotoPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        saveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exitButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        removePhotoButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        addExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        removeExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        deleteButton.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        picker.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        workoutName.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseListScrollPane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        exerciseSelector.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+
         loadSelectedExercises();
     }
     
@@ -418,13 +388,31 @@ public class WorkoutEditForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        // Apply styles to our form
+        private void applyStyles() {
+            editPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            uploadPhotoPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            saveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            exitButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            removePhotoButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            addExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            removeExerciseButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            deleteButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
+            picker.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            workoutName.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            exerciseListScrollPane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            exerciseSelector.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+            addExsitingWorkout.setBorder(UIStyles.DEFAULT_BORDER_2PX);
+        }
+
+
     // Helper method to initialize the combo box with exercise options
     private void initComboBox() {
         DefaultComboBoxModel model = new DefaultComboBoxModel<>(RensisFit.exerciciArrayListToString(allExercises));
         exerciseSelector.setModel(model);
     }
     
-    // Helper method to initialize the date picker
+    // Initialize date picker
     private void initDatePicker() {
         picker = new JXDatePicker();
         picker.setDate(Calendar.getInstance().getTime());
@@ -439,10 +427,10 @@ public class WorkoutEditForm extends javax.swing.JDialog {
         }
     }
     
-    // Method to add an exercise panel to the UI
+    // Add Excercise to user panel
     private void addExercisePanel(Exercici e) {
         JPanel selectedPanel = new JPanel();
-        selectedPanel.setSize(new Dimension(100, 20));
+        selectedPanel.setPreferredSize(new Dimension(100, 20));
         JLabel selectedPanelLabel = new JLabel(e.getNomExercici(), SwingConstants.CENTER);
         selectedPanelLabel.setFont(UIStyles.getFont(18));
         selectedPanel.add(selectedPanelLabel);
@@ -450,28 +438,34 @@ public class WorkoutEditForm extends javax.swing.JDialog {
         exerciseListPanel.revalidate();
         exerciseListPanel.repaint();
     }
-    // Methon when the Save button is clicked for adding or editing a workout
+
+    // Method when the Save button is clicked for adding or editing a workout
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
-        if (action.equals("edit")) {
-            // Update existing workout
-            selectedWorkout.setComments(workoutName.getText());
-            selectedWorkout.setForDate(dateFormatter.format(picker.getDate()));
-
-            // Save changes to the database
-            DataAccess.updateWorkout(selectedWorkout, selectedExercises);
-        } else {
-            // Create new workout
-            Workout w = new Workout();
-            w.setComments(workoutName.getText());
-            w.setIdUsuari(user.getId());
-            w.setForDate(dateFormatter.format(picker.getDate()));
-
-            // Insert new workout into the database
-            DataAccess.insertWorkout(w, selectedExercises);
+        String workoutText = workoutName.getText().trim();
+        if (workoutText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Workout name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        // Close the form after saving
+        if (selectedExercises.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please add at least one exercise.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (action.equals("edit")) {
+            selectedWorkout.ifPresent(workout -> {
+                workout.setComments(workoutText);
+                workout.setForDate(dateFormatter.format(picker.getDate()));
+                DataAccess.updateWorkout(workout, selectedExercises);
+            });
+        } else {
+            Workout newWorkout = new Workout();
+            newWorkout.setComments(workoutText);
+            newWorkout.setIdUsuari(user.getId());
+            newWorkout.setForDate(dateFormatter.format(picker.getDate()));
+            DataAccess.insertWorkout(newWorkout, selectedExercises);
+        }
+
         setVisible(false);
     }//GEN-LAST:event_saveButtonActionPerformed
     
@@ -483,65 +477,47 @@ public class WorkoutEditForm extends javax.swing.JDialog {
     // Method when the Add Exercise button is clicked
     private void addExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExerciseButtonActionPerformed
         String selectedExerciseName = (String) exerciseSelector.getSelectedItem();
-        for (Exercici e : allExercises) {
-            if (e.getNomExercici().equals(selectedExerciseName) && !selectedExercises.contains(e)) {
+        allExercises.stream()
+            .filter(e -> e.getNomExercici().equals(selectedExerciseName) && !selectedExercises.contains(e))
+            .findFirst()
+            .ifPresent(e -> {
                 selectedExercises.add(e);
                 addExercisePanel(e);
-            }
-        }
+            });
     }//GEN-LAST:event_addExerciseButtonActionPerformed
 
     // Method to remove an exercise from exercises lists
     private void removeExerciseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeExerciseButtonActionPerformed
         String selectedExerciseName = (String) exerciseSelector.getSelectedItem();
-        Exercici exerciseToRemove = null;
-        JPanel panelToRemove = null;
-
-        for (Exercici e : selectedExercises) {
-            // Check if combo box selected option is equal to any option in selected list
-            if (e.getNomExercici().equals(selectedExerciseName)) {
-                exerciseToRemove = e;
+        selectedExercises.stream()
+            .filter(e -> e.getNomExercici().equals(selectedExerciseName))
+            .findFirst()
+            .ifPresent(exerciseToRemove -> {
+                selectedExercises.remove(exerciseToRemove);
                 for (Component c : exerciseListPanel.getComponents()) {
-                    // If instance of JPanel
-                    if (c instanceof JPanel) {
-                        JPanel panel = (JPanel) c;
-                        // If instance of JLabel
-                        if (panel.getComponent(0) instanceof JLabel) {
-                            JLabel label = (JLabel) panel.getComponent(0);
-                            if (label.getText().equals(selectedExerciseName)) {
-                                // Setting up the panel to remove
-                                panelToRemove = panel;
-                                break;
-                            }
+                    if (c instanceof JPanel panel) {
+                        if (panel.getComponent(0) instanceof JLabel label && label.getText().equals(selectedExerciseName)) {
+                            exerciseListPanel.remove(panel);
+                            break;
                         }
                     }
                 }
-                break;
-            }
-        }
-
-        // If not null remove and repaint panel
-        if (panelToRemove != null && exerciseToRemove != null) {
-            exerciseListPanel.remove(panelToRemove);
-            selectedExercises.remove(exerciseToRemove);
-            exerciseListPanel.revalidate();
-            exerciseListPanel.repaint();
-        }
+                exerciseListPanel.revalidate();
+                exerciseListPanel.repaint();
+            });
     }//GEN-LAST:event_removeExerciseButtonActionPerformed
     
     // Method when Delete button clicked to delete a workout
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // Delete the selected workout from the database
-        if (selectedWorkout != null) {
-            DataAccess.deleteWorkout(selectedWorkout.getId());
-        }
-        setVisible(false);
+        selectedWorkout.ifPresent(workout -> {
+            DataAccess.deleteWorkout(workout.getId());
+            setVisible(false);
+        });
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addExsitingWorkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExsitingWorkoutActionPerformed
-        ExistingWorkoutForm form = new ExistingWorkoutForm(this.mainScreen,true,user.getId());
-        form.setVisible(true);
-    setVisible(false);
+        new ExistingWorkoutForm(this.mainScreen, true, user.getId()).setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_addExsitingWorkoutActionPerformed
 
 
