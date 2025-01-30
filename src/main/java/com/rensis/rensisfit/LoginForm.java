@@ -4,6 +4,8 @@
  */
 package com.rensis.rensisfit;
 import com.rensis.styles.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,8 +36,19 @@ public class LoginForm extends javax.swing.JDialog {
         
         // Setting location of the form
         setLocationRelativeTo(mainScreen);
+        
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    login();
+                }
+            }
+        });
     
     }
+    
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -165,6 +178,10 @@ public class LoginForm extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        login();
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void login(){
         // Obtener valores del formulario
         char[] passwordArray = passwordField.getPassword();
         String email = emailField.getText();
@@ -190,8 +207,8 @@ public class LoginForm extends javax.swing.JDialog {
 
         // Hide form after login try
         setVisible(false);
-    }//GEN-LAST:event_loginButtonActionPerformed
-
+    }
+    
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,}$";
         return email.matches(emailRegex);

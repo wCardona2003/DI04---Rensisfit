@@ -4,6 +4,7 @@ com\rensis\styles\RoundedPasswordField.class
 com\rensis\rensisfit\LoginForm.class
 com\rensis\models\Workout.class
 com\rensis\rensisfit\WorkoutEditForm$3.class
+com\rensis\rensisfit\LoginForm$3.class
 com\rensis\rensisfit\WorkoutEditForm$6.class
 com\rensis\styles\RoundedBorder.class
 com\rensis\rensisfit\UserPanel$4.class
@@ -28,5 +29,4 @@ com\rensis\data\DataAccess.class
 com\rensis\rensisfit\ExistingWorkoutForm.class
 com\rensis\rensisfit\ExistingWorkoutForm$2.class
 com\rensis\rensisfit\UserPanel$2.class
-com\rensis\rensisfit\UserPanel$5.class
 com\rensis\rensisfit\UserPanel.class

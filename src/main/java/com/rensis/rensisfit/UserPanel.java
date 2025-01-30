@@ -3,22 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.rensis.rensisfit;
+
 import com.rensis.data.DataAccess;
 import com.rensis.models.Exercici;
 import com.rensis.models.Usuari;
 import com.rensis.models.Workout;
 import com.rensis.styles.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+
 
 /**
  *
@@ -36,53 +33,68 @@ public class UserPanel extends JPanel {
     
     private Usuari selectedUser = null;
     private Workout selectedWorkout = null;
-    private ArrayList<Exercici> selectedWorkoutExercises = null;
+    private ArrayList<Exercici> selectedWorkoutExercises = new ArrayList<>();
 
-    
-    private ArrayList<Usuari> instructorUsers = null; 
+    private ArrayList<Usuari> instructorUsers = null;
+
     /**
-     * Creates new form UserPanel
-     * @param parent
-     * @param user
+     * Creates a new UserPanel.
+     * @param parent the parent frame
+     * @param user the logged-in user
      */
     public UserPanel(MainScreen parent, Usuari user) {
         this.parentFrame = parent;
         this.user = user;
+
+        // Ensure instructorUsers list is not null to prevent NullPointerException
         this.instructorUsers = DataAccess.getAllUsersByInstructor(user.getId());
-        
-        
+        if (this.instructorUsers == null) {
+            this.instructorUsers = new ArrayList<>();
+        }
+
         initComponents();
 
-        // Styling the components borders
+        // Styling component borders
+        applyUIStyles();
+
+        // Setting user name in the header label
+        if (user.getNom() != null) {
+            userHeaderName.setText(user.getNom());
+        } else {
+            userHeaderName.setText("Unknown User");
+        }
+
+        addUserPanels();
+
+        // Simulate clicking the first user in the list if available
+        if (!userListPanels.isEmpty()) {
+            userListPanels.get(0).dispatchEvent(
+                    new MouseEvent(userListPanels.get(0), MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false)
+            );
+        }
+    }
+    
+        // Apply UI styles to components
+    private void applyUIStyles() {
         headerPanel.setBorder(UIStyles.NO_BOTTOM_BORDER);
         logoutButton.setBorder(UIStyles.DEFAULT_BORDER_3PX);
         contentPanel.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        
+
         usersListContainer.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         usersListScrollpane.setBorder(UIStyles.NO_LEFT_RIGHT_BORDER);
-        
+
         userInfoPanel.setBorder(UIStyles.NO_LEFT_RIGHT_BORDER);
         userInfoPhoto.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         exerciseInfo.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        userInfoPhoto.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        
         workoutAddButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         workoutEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         workoutsListScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        
+
         exerciseInfoPhoto.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         exerciseInfoDescriptionScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
         exerciseEditButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         exerciseRemoveButton.setBorder(UIStyles.DEFAULT_BORDER_2PX_BUTTON);
         exerciseListScrollpane.setBorder(UIStyles.DEFAULT_BORDER_2PX);
-        
-        // Setting user name on Hi <user> label
-        userHeaderName.setText(user.getNom());
-        
-        addUserPanels();
-        if(!userListPanels.isEmpty()){
-            userListPanels.get(0).dispatchEvent(new MouseEvent(userListPanels.get(0), MouseEvent.MOUSE_CLICKED,System.currentTimeMillis(), 0, 0, 0, 1, false));
-        }
     }
 
     /**
@@ -547,167 +559,158 @@ public class UserPanel extends JPanel {
         add(contentPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
     
-    // Method to add item to a list
-    private void addItemToList(boolean last, Object item, JPanel listPanel, ArrayList<JPanel> listPanels, int width, int height) {
+    // Method to add an item to a list (User, Workout, Exercise)
+   private void addItemToList(boolean last, Object item, JPanel listPanel, ArrayList<JPanel> listPanels, int width, int height) {
+       if (item == null || listPanel == null || listPanels == null) {
+           return; // Prevent adding null elements
+       }
 
-        // Creating JPanel
-        JPanel itemPanel = new JPanel();
-        itemPanel.setPreferredSize(new Dimension(width, height));
-        if (itemPanel.getComponentCount() > 0) {
-            itemPanel.getComponent(0).setForeground(Color.BLACK);
-        }
-        itemPanel.setBackground(Color.WHITE);
-        itemPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+       // Creating JPanel
+       JPanel itemPanel = new JPanel();
+       itemPanel.setPreferredSize(new Dimension(width, height));
+       itemPanel.setBackground(Color.WHITE);
+       itemPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+       itemPanel.setLayout(new BorderLayout());
 
-        itemPanel.setLayout(new BorderLayout());
+       // Apply border correctly
+       if (item instanceof Usuari) {
+           itemPanel.setBorder(last ? UIStyles.BOTTOM_RIGHT_BORDER : UIStyles.BOTTOM_RIGHT_BORDER);
+       } else {
+           itemPanel.setBorder(last ? UIStyles.BOTTOM_RIGHT_BORDER : UIStyles.BOTTOM_BORDER);
+       }
 
-        // Creating label
-        JLabel label;
-        if (item instanceof Usuari) {
-            label = new JLabel(((Usuari) item).getNom(), SwingConstants.CENTER);
-        } else if (item instanceof Workout) {
-            label = new JLabel(((Workout) item).getComments(), SwingConstants.CENTER);
-        } else if (item instanceof Exercici) {
-            label = new JLabel(((Exercici) item).getNomExercici(), SwingConstants.CENTER);
-        } else {
-            throw new IllegalArgumentException("Tipo de elemento no compatible.");
-        }
+       // Creating label
+       JLabel label;
+       if (item instanceof Usuari) {
+           label = new JLabel(((Usuari) item).getNom(), SwingConstants.CENTER);
+       } else if (item instanceof Workout) {
+           label = new JLabel(((Workout) item).getComments(), SwingConstants.CENTER);
+       } else if (item instanceof Exercici) {
+           label = new JLabel(((Exercici) item).getNomExercici(), SwingConstants.CENTER);
+       } else {
+           return; // Invalid object type
+       }
 
-        label.setForeground(Color.BLACK);
-        label.setFont(UIStyles.getFont(24));
-        
-        // Adding MouseListener to cath the mouse actions
-        label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Emule screen click
-                itemPanel.dispatchEvent(new MouseEvent(itemPanel, MouseEvent.MOUSE_CLICKED,System.currentTimeMillis(), 0, 0, 0, 1, false));
-            }
-        });
-        
-        // Adding label to panel
-        itemPanel.add(label, BorderLayout.CENTER);
+       label.setForeground(Color.BLACK);
+       label.setFont(UIStyles.getFont(24));
 
-        // Adding Mouse Listener to catch mouse actions
-        itemPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                resetPanelColors(listPanels);
+       // Adding MouseListener to catch the mouse actions
+       itemPanel.addMouseListener(new MouseAdapter() {
+           @Override
+           public void mouseClicked(MouseEvent e) {
+               resetPanelColors(listPanels);
 
-                // If clicked styles change
-                itemPanel.setBackground(new Color(103, 103, 103));
-                itemPanel.getComponent(0).setForeground(Color.WHITE);
+               // If clicked, change styles
+               itemPanel.setBackground(new Color(103, 103, 103));
+               if (itemPanel.getComponentCount() > 0) {
+                   itemPanel.getComponent(0).setForeground(Color.WHITE);
+               }
 
-                // If instance of item is Usuari class
-                if (item instanceof Usuari) {
-                    // Get last clicked panel and user
-                    lastClickedPanel = itemPanel;
-                    selectedUser = (Usuari) item;
-                    
-                    // Reset info
-                    resetInfo("all");
-                    
-                    // Call updateUserInfo
-                    updateUserInfo((Usuari) item);
-                    
-                    // Add user workouts panels
-                    addWorkoutsPanels((Usuari) item);
-                    if(!workoutsListPanels.isEmpty()){
-                        workoutsListPanels.get(0).dispatchEvent(new MouseEvent(workoutsListPanels.get(0), MouseEvent.MOUSE_CLICKED,System.currentTimeMillis(), 0, 0, 0, 1, false));
-                    }
-                // If instance of item is Workout class
-                } else if (item instanceof Workout) {
-                    
-                    // Get last clicked workout panel
-                    selectedWorkout = (Workout) item;
-                    // Reset info
-                    resetInfo("");
-                    // Add exercises panels
-                    addExerciciPanels((Workout) item);
-                    // Hide exercisesInfo
-                    hideExercisesInfo();
-                    
-                } else if (item instanceof Exercici) {
-                    updateExerciseInfo((Exercici) item);
-                    // If exercise clicked show exercise panel
-                    showExercisesInfo();
-                }
-            }
-        });
+               // Handle different item types
+               if (item instanceof Usuari) {
+                   lastClickedPanel = itemPanel;
+                   selectedUser = (Usuari) item;
+                   resetInfo("all");
+                   updateUserInfo(selectedUser);
+                   addWorkoutsPanels(selectedUser);
+               } else if (item instanceof Workout) {
+                   selectedWorkout = (Workout) item;
+                   resetInfo("");
+                   addExercisePanels(selectedWorkout);
+                   hideExercisesInfo();
+               } else if (item instanceof Exercici) {
+                   updateExerciseInfo((Exercici) item);
+                   showExercisesInfo(); // Ensure the panel is shown
+               }
+           }
+       });
 
-        if (item instanceof Usuari){
-            if (!last) {
-                itemPanel.setBorder(UIStyles.BOTTOM_RIGHT_BORDER);
-            }
-        } else {
-            if (!last) {
-                itemPanel.setBorder(UIStyles.BOTTOM_BORDER);
-            }
-        }
+       itemPanel.add(label, BorderLayout.CENTER);
+       listPanel.add(itemPanel);
+       listPanels.add(itemPanel);
 
-        listPanel.add(itemPanel);
-        listPanels.add(itemPanel);
-
-        listPanel.revalidate();
-        listPanel.repaint();
-    }
+       listPanel.revalidate();
+       listPanel.repaint();
+   }
     
-    // Method to add users panel to the list
+    // Method to add user panels and select the first one
     private void addUserPanels() {
-
-        // Getting all the users      
-        int last = instructorUsers.size();
+        int last = instructorUsers.size() - 1;
         int i = 0;
-        
-        for ( Usuari user : instructorUsers ) {
-            if (i == last){
-                addItemToList(true,user,usersList,userListPanels,248,70);
-            } else {
-                addItemToList(false,user,usersList,userListPanels,248,70);
+
+        for (Usuari user : instructorUsers) {
+            if (user != null) {
+                addItemToList(i == last, user, usersList, userListPanels, 248, 70);
             }
-            // Increasing i variable to get the last
             i++;
         }
+
+        // Automatically select the first user in the list
+        if (!userListPanels.isEmpty()) {
+            userListPanels.get(0).dispatchEvent(new MouseEvent(userListPanels.get(0),
+                    MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false));
+        }
     }
     
-    // Method to add workouts to the user workouts list
-    private void addWorkoutsPanels(Usuari user) {
-
-        // Setting up workouts list per user
-        ArrayList<Workout> userWorkouts = DataAccess.getWorkoutsPerUser(user);
-        
-        // For each workout we add a new workout
-        if(!userWorkouts.isEmpty()){
-            for (Workout workout : userWorkouts){
-                addItemToList(false,workout,workoutsList,workoutsListPanels,315,90);
-            }
-        }else{
-            resetInfo("all");
-        }
-        workoutsList.revalidate();
-        workoutsList.repaint();
-    }
-
-    // Method to add workouts to the user workouts list
-    private void addExerciciPanels(Workout workout) {
-
-        // Setting up workouts list per user
+    // Method to add exercises and select the first one
+    private void addExercisePanels(Workout workout) {
         ArrayList<Exercici> workoutExercises = DataAccess.getExercicisPerWorkout(workout);
-        
-        // For each workout we add a new workout
-        for (Exercici exercici : workoutExercises){
-            addItemToList(false,exercici,exerciseList,exerciseListPanels,315,90);
+
+        if (workoutExercises == null || workoutExercises.isEmpty()) {
+            return;
         }
-        selectedWorkoutExercises = workoutExercises;
+
+        exerciseListPanels.clear(); // Clear previous panels to avoid duplicates
+        exerciseList.removeAll(); 
+        exerciseList.revalidate();
+        exerciseList.repaint();
+
+        int i = 0;
+        for (Exercici exercici : workoutExercises) {
+            addItemToList(i == workoutExercises.size() - 1, exercici, exerciseList, exerciseListPanels, 315, 90);
+            i++;
+        }
+
+        // Automatically select the first exercise in the list
+        if (!workoutExercises.isEmpty() && !exerciseListPanels.isEmpty()) {
+            Exercici firstExercise = workoutExercises.get(0);
+            updateExerciseInfo(firstExercise); // Update exercise info directly
+            showExercisesInfo(); // Ensure the panel is visible
+        }
+    }
+    
+    // Method to add workouts and select the first one
+    private void addWorkoutsPanels(Usuari user) {
+        ArrayList<Workout> userWorkouts = DataAccess.getWorkoutsPerUser(user);
+
+        if (userWorkouts == null || userWorkouts.isEmpty()) {
+            resetInfo("all");
+            return;
+        }
+
+        int i = 0;
+        for (Workout workout : userWorkouts) {
+            addItemToList(i == userWorkouts.size() - 1, workout, workoutsList, workoutsListPanels, 315, 90);
+            i++;
+        }
+
+        // Automatically select the first workout in the list
+        if (!workoutsListPanels.isEmpty()) {
+            workoutsListPanels.get(0).dispatchEvent(new MouseEvent(workoutsListPanels.get(0),
+                    MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 1, false));
+        }
     }
    
     // Method to reset panel colors
     private void resetPanelColors(ArrayList<JPanel> panels) {
+        if (panels == null) return;
+
         for (JPanel panel : panels) {
             panel.setBackground(Color.WHITE);
-            panel.getComponent(0).setForeground(Color.BLACK);
+            if (panel.getComponentCount() > 0) {
+                panel.getComponent(0).setForeground(Color.BLACK);
+            }
         }
-        
         workoutsList.revalidate();
         workoutsList.repaint();
         exerciseList.revalidate();
@@ -729,42 +732,50 @@ public class UserPanel extends JPanel {
         
     }
     
-    // Method to update the user information
-    private void updateUserInfo(Usuari user){
-        userInfoName.setText(user.getNom());
-        userInfoTitle.setText(user.getNom());
-        userInfoMail.setText(user.getEmail());
+    // Method to update user information
+    private void updateUserInfo(Usuari user) {
+        if (user == null) return;
+
+        userInfoName.setText(user.getNom() != null ? user.getNom() : "Unknown");
+        userInfoTitle.setText(user.getNom() != null ? user.getNom() : "Unknown");
+        userInfoMail.setText(user.getEmail() != null ? user.getEmail() : "No email provided");
     }
+
     
-    // Method to exercise information
-    private void updateExerciseInfo(Exercici exercise){
-        exerciseInfoWorkoutName.setText(exercise.getNomExercici());
-        exerciseInfoDescription.setText(exercise.getDescripcio());
+    // Method to update exercise information
+    private void updateExerciseInfo(Exercici exercise) {
+        if (exercise == null) return;
+
+        exerciseInfoWorkoutName.setText(exercise.getNomExercici() != null ? exercise.getNomExercici() : "Unknown Exercise");
+        exerciseInfoDescription.setText(exercise.getDescripcio() != null ? exercise.getDescripcio() : "No description available");
     }
     
     // Method to hide exercises info
-    private void hideExercisesInfo(){
-        for(Component c : exerciseInfo.getComponents()){
-            c.setVisible(false);
+    private void hideExercisesInfo() {
+        if (exerciseInfo != null) {
+            for (Component c : exerciseInfo.getComponents()) {
+                c.setVisible(false);
+            }
         }
-
     }
     
-    // Method to show exercises info
-    private void showExercisesInfo(){
-        for(Component c : exerciseInfo.getComponents()){
-            c.setVisible(true);
+    // Method to show exercise info after selection
+    private void showExercisesInfo() {
+        if (exerciseInfo != null) {
+            for (Component c : exerciseInfo.getComponents()) {
+                c.setVisible(true);
+            }
         }
-
     }
     
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-
-        // Hidding panel
+        // Hide panel
         setVisible(false);
 
-        // Calling logout handler
-        this.parentFrame.logoutHandler();
+        // Call logout handler
+        if (parentFrame != null) {
+            parentFrame.logoutHandler();
+        }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void workoutEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workoutEditButtonActionPerformed

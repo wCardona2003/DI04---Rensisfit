@@ -63,5 +63,6 @@ public class UIStyles {
     public static final Border NO_BOTTOM_BORDER = javax.swing.BorderFactory.createMatteBorder(2, 2, 0, 2, Color.BLACK);
     public static final Border NO_LEFT_RIGHT_BORDER = javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, Color.BLACK);
     public static final Border NO_TOP_BOTTOM_BORDER = javax.swing.BorderFactory.createMatteBorder(0, 2, 0, 2, Color.BLACK);
+    public static final Border NO_TOP_LEFT_BORDER = javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
     
 }
