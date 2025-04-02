@@ -14,9 +14,15 @@ import java.util.Properties;
 /**
  *
  * @author Mike
+ * Clase para la obtención de datos de la base de datos
  */
 public class DataAccess {
 
+    /**
+    * Establece y devuelve una conexión a la base de datos.
+    * 
+    * @return Una conexión activa a la base de datos o null si ocurre un error.
+    */
     private static Connection getConnection() {
         Connection connection = null;
         Properties properties = new Properties();
@@ -37,6 +43,12 @@ public class DataAccess {
         return connection;
     }
 
+    /**
+    * Obtiene un usuario de la base de datos a partir de su correo electrónico.
+    * 
+    * @param email El correo electrónico del usuario.
+    * @return Un objeto Usuari con los datos del usuario o null si no se encuentra.
+    */
     public static Usuari getUser(String email) {
         Usuari user = null;
         String sql = "SELECT * FROM Usuaris WHERE Email = ?";
@@ -59,6 +71,12 @@ public class DataAccess {
         return user;
     }
 
+    
+    /**
+    * Obtiene todos los usuarios que no son instructores.
+    * 
+    * @return Una lista de usuarios que no tienen rol de instructor.
+    */
     public static ArrayList<Usuari> getAllUsers() {
         ArrayList<Usuari> usuaris = new ArrayList<>();
         String sql = "SELECT * FROM Usuaris WHERE Instructor=0";
@@ -81,6 +99,13 @@ public class DataAccess {
         return usuaris;
     }
 
+    
+    /**
+    * Obtiene todos los usuarios asignados a un instructor específico.
+    * 
+    * @param idInstructor El ID del instructor.
+    * @return Una lista de usuarios asignados a ese instructor.
+    */
     public static ArrayList<Usuari> getAllUsersByInstructor(int idInstructor) {
         ArrayList<Usuari> usuaris = new ArrayList<>();
         String sql = "SELECT * FROM Usuaris WHERE AssignedInstructor=?";
@@ -103,6 +128,12 @@ public class DataAccess {
         return usuaris;
     }
     
+    /**
+    * Obtiene todos los entrenamientos registrados en la base de datos.
+    * 
+    * @return Una lista con todos los entrenamientos.
+    */
+    
         public static ArrayList<Workout> getAllWorkouts() {
         ArrayList<Workout> workouts = new ArrayList<>();
         String sql = "SELECT * FROM Workouts";
@@ -124,6 +155,12 @@ public class DataAccess {
         return workouts;
     }
 
+    /**
+    * Obtiene todos los entrenamientos de un usuario específico.
+    * 
+    * @param user El usuario cuyos entrenamientos se desean obtener.
+    * @return Una lista de entrenamientos asociados al usuario.
+    */
     public static ArrayList<Workout> getWorkoutsPerUser(Usuari user) {
         ArrayList<Workout> workouts = new ArrayList<>();
         String sql = "SELECT Workouts.Id, Workouts.ForDate, Workouts.UserId, Workouts.Comments"
@@ -150,6 +187,14 @@ public class DataAccess {
 
     }
 
+    
+    /**
+    * Obtiene todos los ejercicios asociados a un entrenamiento específico.
+    * 
+    * @param workout El entrenamiento del que se desean obtener los ejercicios.
+    * @return Una lista de ejercicios que pertenecen al entrenamiento.
+    */
+    
     public static ArrayList<Exercici> getExercicisPerWorkout(Workout workout) {
         ArrayList<Exercici> exercicis = new ArrayList<>();
         String sql = "SELECT ExercicisWorkouts.IdExercici,"
@@ -175,6 +220,11 @@ public class DataAccess {
         return exercicis;
     }
 
+    /**
+    * Obtiene todos los ejercicios disponibles en la base de datos.
+    * 
+    * @return Una lista con todos los ejercicios registrados.
+    */
     public static ArrayList<Exercici> getAllExercicis() {
         ArrayList<Exercici> exercicis = new ArrayList<>();
         String sql = "SELECT Id, Exercicis.NomExercici, Exercicis.Descripcio, Exercicis.DemoFoto"
@@ -198,6 +248,13 @@ public class DataAccess {
         return exercicis;
     }
 
+    
+    /**
+     * Registra un nuevo usuario en la base de datos.
+     * 
+     * @param u El objeto Usuari con la información del usuario a registrar.
+     * @return El ID del usuario registrado o 0 si ocurre un error.
+     */
     public static int registerUser(Usuari u) {
         String sql = "INSERT INTO dbo.Usuaris (Nom, Email, PasswordHash, Instructor)"
                 + " VALUES (?,?,?,?)"
@@ -216,12 +273,24 @@ public class DataAccess {
         return 0;
     }
 
+    /**
+    * Inserta un nuevo entrenamiento junto con sus ejercicios en la base de datos.
+    * 
+    * @param w El entrenamiento a insertar.
+    * @param exercicis La lista de ejercicios asociados al entrenamiento.
+    */
     public static void insertWorkout(Workout w, ArrayList<Exercici> exercicis) {
         // The following should be done in a SQL transaction
         int newWorkoutId = insertToWorkoutTable(w);
         insertExercisesPerWorkout(newWorkoutId, exercicis);
     }
 
+    /**
+    * Inserta un nuevo entrenamiento en la tabla de entrenamientos.
+    * 
+    * @param w El entrenamiento a insertar.
+    * @return El ID del entrenamiento insertado o 0 si ocurre un error.
+    */
     private static int insertToWorkoutTable(Workout w) {
         String sql = "INSERT INTO dbo.Workouts (ForDate, UserId, Comments)"
                 + " VALUES (?,?,?)";
@@ -252,6 +321,13 @@ public class DataAccess {
         return 0;
     }
 
+    /**
+    * Inserta los ejercicios asociados a un entrenamiento en la base de datos.
+    * 
+    * @param wId El ID del entrenamiento.
+    * @param exercicis La lista de ejercicios a asociar.
+    * @return El número de ejercicios insertados o 0 si ocurre un error.
+    */
     private static int insertExercisesPerWorkout(int wId, ArrayList<Exercici> exercicis) {
         for(Exercici e: exercicis) {
             int rowsAffected = insertExerciciPerWorkout(wId, e);
@@ -262,6 +338,13 @@ public class DataAccess {
         return exercicis.size();
     }
 
+    /**
+    * Inserta un ejercicio específico en la tabla de relación ejercicios-entrenamientos.
+    * 
+    * @param wId El ID del entrenamiento.
+    * @param e El ejercicio a asociar.
+    * @return 1 si se insertó correctamente, 0 en caso contrario.
+    */
     private static int insertExerciciPerWorkout(int wId, Exercici e) {
         String sql = "INSERT INTO dbo.ExercicisWorkouts (IdWorkout, IdExercici)"
                 + " VALUES (?,?)";
@@ -276,6 +359,11 @@ public class DataAccess {
         return 0;
     }
     
+    /**
+    * Elimina un entrenamiento y sus ejercicios asociados de la base de datos.
+    * 
+    * @param workoutId El ID del entrenamiento a eliminar.
+    */
     // Method to delete workout (chatGPT helped)
     public static void deleteWorkout(int workoutId) {
         // Comenzamos una transacción para asegurar la integridad de los datos
@@ -325,6 +413,12 @@ public class DataAccess {
         }
     }
     
+    /**
+    * Actualiza un entrenamiento, modificando sus comentarios y reemplazando sus ejercicios.
+    * 
+    * @param w El entrenamiento a actualizar.
+    * @param newExercises La nueva lista de ejercicios a asociar al entrenamiento.
+    */
     public static void updateWorkout(Workout w, ArrayList<Exercici> newExercises) {
 
         // Verificar si la lista de ejercicios está vacía

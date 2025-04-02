@@ -21,6 +21,7 @@ import org.jdesktop.swingx.JXDatePicker;
 /**
  *
  * @author Wilde
+ * Clase para la creación del formulario que permite editar un workout
  */
 public class WorkoutEditForm extends javax.swing.JDialog {
 

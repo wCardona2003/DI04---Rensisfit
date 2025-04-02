@@ -12,6 +12,7 @@ import java.util.HashSet;
 /**
  *
  * @author Wilde
+ * clase Main de la aplicación
  */
 public class RensisFit {
     

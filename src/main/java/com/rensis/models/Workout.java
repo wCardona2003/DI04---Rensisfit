@@ -7,6 +7,7 @@ package com.rensis.models;
 /**
  *
  * @author Wilde
+ * Clase para la deficición del objeto workout
  */
 public class Workout {
     

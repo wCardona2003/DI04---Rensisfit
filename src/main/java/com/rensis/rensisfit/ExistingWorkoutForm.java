@@ -13,6 +13,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Wilde
+ * Clase para la creación del dialogo cuando existe un workout
  */
 public class ExistingWorkoutForm extends javax.swing.JDialog {
 

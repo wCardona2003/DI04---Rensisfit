@@ -16,6 +16,7 @@ import java.awt.Insets;
 /**
  *
  * @author Wilde
+ * Clase para definir el estilo de los bordes redondeados
  */
 public class RoundedBorder extends AbstractBorder {
     private final Color borderColor;

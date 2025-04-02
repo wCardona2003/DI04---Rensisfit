@@ -10,6 +10,7 @@ import javax.swing.*;
 /**
  *
  * @author Wilde
+ * Clase para definir el estilo de los botones redondeados
  */
 public class RoundedButton extends JButton {
     private int cornerRadius = 20; // Ajusta el radio de curvatura

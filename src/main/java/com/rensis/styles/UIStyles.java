@@ -14,6 +14,7 @@ import java.io.InputStream;
 /**
  *
  * @author Wilde
+ * Clase para definir los estilos de la aplicación
  */
 public class UIStyles {
     

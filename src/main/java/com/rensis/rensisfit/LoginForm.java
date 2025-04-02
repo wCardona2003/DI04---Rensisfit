@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Wilde
+ * Clase para la creación del formulario de inicio de sesión
  */
 public class LoginForm extends javax.swing.JDialog {
 
@@ -181,6 +182,12 @@ public class LoginForm extends javax.swing.JDialog {
         login();
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    /*
+    *
+    * Metodo para inicio de sesión
+    *
+    *
+    */
     private void login(){
         // Obtener valores del formulario
         char[] passwordArray = passwordField.getPassword();

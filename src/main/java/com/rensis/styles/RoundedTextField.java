@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 /**
  *
  * @author Wilde
+ * Clase para definir el estilo redondeado del campo de texto
  */
 public class RoundedTextField extends JTextField {
     private int cornerRadius = 15; // Ajusta el radio de las esquinas

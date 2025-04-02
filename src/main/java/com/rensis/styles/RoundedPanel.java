@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 /**
  *
  * @author Wilde
+ * Clase para definir el estilo redondeado de los paneles
  */
 public class RoundedPanel extends JPanel {
     private int cornerRadius = 25; // Ajusta el radio de las esquinas

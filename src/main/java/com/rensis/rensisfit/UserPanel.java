@@ -20,6 +20,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Wilde
+ * Clase para la creación del panel de usuario
  */
 public class UserPanel extends JPanel {
 

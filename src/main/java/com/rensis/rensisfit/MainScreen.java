@@ -11,6 +11,7 @@ import com.rensis.styles.*;
 /**
  *
  * @author Wilde
+ * Clase que contiene el frame principal de la aplicación
  */
 public class MainScreen extends javax.swing.JFrame {
 
@@ -124,10 +125,7 @@ public class MainScreen extends javax.swing.JFrame {
         loginDialog.setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    
-    /**
-     * @param args the command line arguments
-     */
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
